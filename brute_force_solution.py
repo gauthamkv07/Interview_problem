@@ -2,7 +2,8 @@ import ast
 import itertools
 import sys
 
-path = 'points_small.txt'
+paths = ['sample_points.txt', 'points_small.txt', 'points_large.txt']
+path = paths[1]
 input_array = []
 min_float = sys.float_info.max
 res_p1 = -1
@@ -18,6 +19,11 @@ def read_input_from_file():
             input_array.append(list(data))
 
 def volume_of_tetrahedron(p1, p2, p3, p4):
+    if p1 == p2 == p3 == p4:
+        return 0
+    if len(set([tuple(p1), tuple(p2), tuple(p3), tuple(p4)])) == 1:
+        return 0
+
     # Vectors from p1 to p2, p3, and p4
     AB = (p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2])
     AC = (p3[0] - p1[0], p3[1] - p1[1], p3[2] - p1[2])
@@ -58,4 +64,4 @@ for combination in combinations_of_points:
                 res_p4 = indices[3]
                 min_float = volume
 
-print(res_p1, res_p2, res_p3, res_p4)
+print(res_p1, res_p2, res_p3, res_p4, min_float)
