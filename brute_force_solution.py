@@ -19,11 +19,6 @@ def read_input_from_file():
             input_array.append(list(data))
 
 def volume_of_tetrahedron(p1, p2, p3, p4):
-    if p1 == p2 == p3 == p4:
-        return 0
-    if len(set([tuple(p1), tuple(p2), tuple(p3), tuple(p4)])) == 1:
-        return 0
-
     # Vectors from p1 to p2, p3, and p4
     AB = (p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2])
     AC = (p3[0] - p1[0], p3[1] - p1[1], p3[2] - p1[2])
@@ -45,23 +40,23 @@ def volume_of_tetrahedron(p1, p2, p3, p4):
     volume = abs(scalar_triple_product) / 6.0
     return volume
 
-read_input_from_file()
+if __name__ == "__main__":
+    read_input_from_file()
 
-# Generate all combinations of 4 points with their indexes
-combinations_of_points = itertools.combinations(enumerate(input_array), 4)
+    # Generate all combinations of 4 points with their indexes
+    combinations_of_points = itertools.combinations(enumerate(input_array), 4)
 
-# Calculate volume for each combination and print with indexes
-for combination in combinations_of_points:
-    indices, points = zip(*combination)
-    p1, p2, p3, p4 = points
-    volume = volume_of_tetrahedron(p1, p2, p3, p4)
-    if (p1[3] + p2[3] + p3[3] + p4[3]) == 100:
-        if volume != 0:
-            if volume < min_float:
+    # Calculate volume for each combination and print with indexes
+    for combination in combinations_of_points:
+        indices, points = zip(*combination)
+        p1, p2, p3, p4 = points
+        if (p1[3] + p2[3] + p3[3] + p4[3]) == 100:
+            volume = volume_of_tetrahedron(p1, p2, p3, p4)
+            if volume != 0 and volume < min_float:
                 res_p1 = indices[0]
                 res_p2 = indices[1]
                 res_p3 = indices[2]
                 res_p4 = indices[3]
                 min_float = volume
 
-print(res_p1, res_p2, res_p3, res_p4, min_float)
+    print(res_p1, res_p2, res_p3, res_p4, min_float)
